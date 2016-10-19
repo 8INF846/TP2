@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Cell.h"
+#include "Cell.h" //Todo friend class
 
 class Sudoku {
 public:
@@ -15,8 +15,12 @@ public:
     */
     friend std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku);
 
+    unsigned int size();
+    Cell& getCell(unsigned int row, unsigned int col);
+    void setCellValue(unsigned int row, unsigned int col, int newValue);
+
 private:
-    std::vector<std::vector<Cell>> m_grid;
+    std::vector<std::vector<Cell>> m_grid; //TODO std::array
 };
 
 #endif //SUDOKU_H

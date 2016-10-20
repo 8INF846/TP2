@@ -26,19 +26,26 @@ void Solver::updateSudokuConstraints() {
     }
 }
 
-void Solver::solve() {
+bool Solver::solve() {
     updateSudokuConstraints();
+    //TODO backtracking + AC3
+    bool isFinish = true;
     for (auto r = 0; r < m_sudoku.size(); ++r)
     {
         for (auto c = 0; c < m_sudoku.size(); ++c) {
             auto cell = m_sudoku.getCell(r, c);
             auto possibleValues = cell.getPossiblesValues();
+            //TODO here : MRV
             if(possibleValues.size() == 1 && cell.getValue() == UNKNOWN) {
-                std::cout << "(" << r << ";" << c << "):" << possibleValues[0] << std::endl;
                 m_sudoku.setCellValue(r, c, possibleValues[0]);
+                removeConstraints(r, c, possibleValues[0]);
+            }
+            if(isFinish && cell.getValue() == UNKNOWN) {
+                isFinish = false;
             }
         }
     }
+    return isFinish;
 }
 
 std::vector<int> Solver::getLineConstraints(unsigned int row) {
@@ -78,4 +85,34 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
     }
 
     return result;
+}
+
+void Solver::removeConstraints(const unsigned int row, const unsigned int col, const unsigned int value) {
+    removeLineConstraints(row, value);
+    removeColumnConstraints(col, value);
+    removeBoxConstraints(row, col, value);
+}
+
+void Solver::removeLineConstraints(const unsigned int row, const unsigned int value) {
+    for (auto c = 0; c < m_sudoku.size(); ++c) {
+        m_sudoku.getCell(row, c).delPossiblesValues(value);
+    }
+}
+
+void Solver::removeColumnConstraints(const unsigned int col, const unsigned int value) {
+    for (auto r = 0; r < m_sudoku.size(); ++r) {
+        m_sudoku.getCell(r, col).delPossiblesValues(value);
+    }
+}
+
+void Solver::removeBoxConstraints(const unsigned int row, const unsigned int col, const unsigned int value) {
+    unsigned int size_box = (unsigned int) std::sqrt(m_sudoku.size());
+    unsigned int base_r = row - row%size_box;
+    unsigned int base_c = col - col%size_box;
+
+    for (auto r = base_r; r < base_r + size_box; ++r) {
+        for (auto c = base_c; c < base_c + size_box; ++c) {
+            m_sudoku.getCell(r, c).delPossiblesValues(value);
+        }
+    }
 }

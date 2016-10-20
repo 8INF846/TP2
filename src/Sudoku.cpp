@@ -58,5 +58,14 @@ std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {
         }
         output << std::endl;
     }
+}
 
+#include <iostream>
+Sudoku& Sudoku::operator=(const Sudoku& other)
+{
+    std::cout << "ok!!!" << std::endl;
+    if (this != &other) {
+        this->m_grid = other.m_grid;
+    }
+    return *this;
 }

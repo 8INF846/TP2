@@ -28,19 +28,28 @@ void Solver::updateSudokuConstraints() {
 
 bool Solver::solve() {
     updateSudokuConstraints();
-    //TODO backtracking + AC3
+    //TODO backtracking + MRV
     bool isFinish = true;
+    bool getMRV = true;
+    unsigned int mrvRow = 0, mrvCol = 0;
+    unsigned int mrvSize = m_sudoku.size();
     for (auto r = 0; r < m_sudoku.size(); ++r)
     {
         for (auto c = 0; c < m_sudoku.size(); ++c) {
             auto cell = m_sudoku.getCell(r, c);
             auto possibleValues = cell.getPossiblesValues();
-            //TODO here : MRV
-            if(possibleValues.size() == 0 && cell.getValue() == UNKNOWN)
+            if(possibleValues.size() == 0 && cell.getValue() == UNKNOWN) {
                 throw std::string("can't solve this sudoku");
+            }
+            if(cell.getValue() == UNKNOWN && possibleValues.size() < mrvSize) {
+                mrvRow = r;
+                mrvCol = c;
+                mrvSize = possibleValues.size();
+            }
             if(possibleValues.size() == 1 && cell.getValue() == UNKNOWN) {
                 m_sudoku.setCellValue(r, c, possibleValues[0]);
                 removeConstraints(r, c, possibleValues[0]);
+                getMRV = false;
             }
             if(isFinish && cell.getValue() == UNKNOWN) {
                 isFinish = false;

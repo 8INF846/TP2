@@ -19,6 +19,8 @@ public:
     Cell& getCell(unsigned int row, unsigned int col);
     void setCellValue(unsigned int row, unsigned int col, int newValue);
 
+    Sudoku& operator=(const Sudoku& other);
+
 private:
     std::vector<std::vector<Cell>> m_grid; //TODO std::array
 };

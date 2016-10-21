@@ -17,12 +17,8 @@ int main(int argc, char* argv[]) {
         Sudoku sudoku = Sudoku(std::string(argv[1]));
         std::cout << sudoku;
         Solver solver = Solver(sudoku);
-        unsigned int it = 0;
-        while(!solver.solve()) {
-            std::cout << "Iteration " << it << ":" << std::endl;
-            it++;
-            std::cout << sudoku;
-        }
+        solver.solve();
+        std::cout << std::endl << sudoku;
     } catch (const std::string& e) {
         std::cerr << e << std::endl;
         return EXIT_FAILURE;

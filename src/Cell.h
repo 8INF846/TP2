@@ -11,8 +11,12 @@ public:
   int getValue() const;
   void setValue(int newValue);
   std::vector<int> getPossiblesValues() const;
+  void setPossiblesValues(std::vector<int> possibleValues);
   void addPossibleValues(int value);
   void delPossiblesValues(int value);
+  void resetDomain(unsigned int n);
+
+  Cell& operator=(const Cell& other);
 
 private:
   int m_val;

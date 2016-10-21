@@ -4,13 +4,22 @@
 #include <string>
 
 Cell::Cell(int value, bool prefilled) : m_val(value), m_preFilled(prefilled) {
-    for(auto i = 1; i <= 9; ++i) {
-        if(value == UNKNOWN) {
+
+}
+
+void Cell::resetDomain(unsigned int n) {
+    m_possibleValues.clear();
+    for(auto i = 1; i <= n; ++i) {
+        if(m_val == UNKNOWN) {
             m_possibleValues.push_back(i);
-        } else if (value == i) {
+        } else if (m_val == i) {
             m_possibleValues.push_back(i);
         }
     }
+}
+
+void Cell::setPossiblesValues(std::vector<int> possibleValues) {
+    m_possibleValues = possibleValues;
 }
 
 int Cell::getValue() const {
@@ -26,11 +35,24 @@ std::vector<int> Cell::getPossiblesValues() const {
 }
 
 void Cell::addPossibleValues(int value) {
+    if(std::find(m_possibleValues.begin(), m_possibleValues.end(), value) == m_possibleValues.end())
     m_possibleValues.push_back(value);
 }
 
 void Cell::delPossiblesValues(int value) {
     m_possibleValues.erase(
-      std::remove(m_possibleValues.begin(), m_possibleValues.end(), value),
-      m_possibleValues.end());
+    std::remove(m_possibleValues.begin(), m_possibleValues.end(), value),
+    m_possibleValues.end());
+}
+
+Cell& Cell::operator=(const Cell& other)
+{
+    if (this != &other) {
+        std::vector<int> possible;
+        for(auto& v: other.m_possibleValues) {
+            possible.push_back(v);
+        }
+        this->m_possibleValues = possible;
+    }
+    return *this;
 }

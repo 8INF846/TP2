@@ -28,35 +28,57 @@ void Solver::updateSudokuConstraints() {
 
 bool Solver::solve() {
     updateSudokuConstraints();
-    //TODO backtracking + MRV
     bool isFinish = true;
-    bool getMRV = true;
-    unsigned int mrvRow = 0, mrvCol = 0;
+    unsigned int mrvR, mrvC;
     unsigned int mrvSize = m_sudoku.size();
+    //Get Mrv
     for (auto r = 0; r < m_sudoku.size(); ++r)
     {
         for (auto c = 0; c < m_sudoku.size(); ++c) {
             auto cell = m_sudoku.getCell(r, c);
             auto possibleValues = cell.getPossiblesValues();
+            //std::cout << r << ";" << c << ":" << possibleValues.size() << "|";
             if(possibleValues.size() == 0 && cell.getValue() == UNKNOWN) {
                 throw std::string("can't solve this sudoku");
             }
             if(cell.getValue() == UNKNOWN && possibleValues.size() < mrvSize) {
-                mrvRow = r;
-                mrvCol = c;
                 mrvSize = possibleValues.size();
-            }
-            if(possibleValues.size() == 1 && cell.getValue() == UNKNOWN) {
-                m_sudoku.setCellValue(r, c, possibleValues[0]);
-                removeConstraints(r, c, possibleValues[0]);
-                getMRV = false;
+                mrvR = r; mrvC = c;
             }
             if(isFinish && cell.getValue() == UNKNOWN) {
                 isFinish = false;
             }
         }
     }
-    return isFinish;
+    if(isFinish) return isFinish;
+
+    //TODO threads + add logger
+    //Change MRV
+    auto cell = m_sudoku.getCell(mrvR, mrvC);
+    auto possibleValues = cell.getPossiblesValues();
+    for(auto& value : possibleValues) {
+        Sudoku m_sudokuCopy = m_sudoku;
+        try {
+            m_sudoku.setCellValue(mrvR, mrvC, value);
+            removeConstraints(mrvR, mrvC, value);
+            std::cout << "Change: " << mrvR << "," << mrvC << " to " << value << std::endl;
+            std::cout << m_sudoku;
+
+            isFinish = solve();
+            if(isFinish) return true;
+        } catch (const std::string& e) {
+            std::cout << "Can't resolve sudoku, return to" << std::endl << m_sudokuCopy;
+            for (auto r = 0; r < m_sudoku.size(); ++r) {
+                for (auto c = 0; c < m_sudoku.size(); ++c) {
+                    m_sudoku.setCellValue(r, c, m_sudokuCopy.getCell(r, c).getValue());
+                    m_sudoku.getCell(r, c).setPossiblesValues(m_sudokuCopy.getCell(r, c).getPossiblesValues());
+
+                }
+            }
+        }
+    }
+    throw std::string("can't find the solution");
+    return false;
 }
 
 std::vector<int> Solver::getLineConstraints(unsigned int row) {
@@ -66,7 +88,7 @@ std::vector<int> Solver::getLineConstraints(unsigned int row) {
         auto cell_value = m_sudoku.getCell(row, c).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end())
-                throw std::string("2 values are identical in a row!");
+            throw std::string("2 values are identical in a row!");
             result.push_back(cell_value);
         }
     }
@@ -80,7 +102,7 @@ std::vector<int> Solver::getColumnConstraints(unsigned int column) {
         auto cell_value = m_sudoku.getCell(r, column).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end())
-                throw std::string("2 values are identical in a row!");
+            throw std::string("2 values are identical in a row!");
             result.push_back(cell_value);
         }
     }
@@ -101,7 +123,7 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
             auto cell_value = m_sudoku.getCell(r, c).getValue();
             if (cell_value != UNKNOWN) {
                 if(std::find(result.begin(), result.end(), cell_value) != result.end())
-                    throw std::string("2 values are identical in a box!");
+                throw std::string("2 values are identical in a box!");
                 result.push_back(cell_value);
             }
         }

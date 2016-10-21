@@ -35,6 +35,12 @@ Sudoku::Sudoku(std::string sudoku_file) {
         }
         else if(width_grid != width) throw std::string("Invalid size for sudoku");
     }
+
+    for (auto r = 0; r < m_grid.size(); ++r) {
+        for (auto c = 0; c < m_grid.size(); ++c) {
+            m_grid[r][c].resetDomain(m_grid.size());
+        }
+    }
 }
 
 unsigned int Sudoku::size() {
@@ -63,9 +69,21 @@ std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {
 #include <iostream>
 Sudoku& Sudoku::operator=(const Sudoku& other)
 {
-    std::cout << "ok!!!" << std::endl;
-    if (this != &other) {
+    /*if (this != &other) {
         this->m_grid = other.m_grid;
     }
+    /**/
+    if (this != &other) {
+        std::vector<std::vector<Cell>> grid;
+        for(auto r = 0; r < other.m_grid.size(); ++r) {
+            grid.emplace_back();
+            for(auto c = 0; c < other.m_grid.size(); ++c) {
+                Cell cell = other.m_grid[r][c];
+                grid.back().push_back(cell);
+            }
+        }
+        this->m_grid = grid;
+    }
+    /**/
     return *this;
 }

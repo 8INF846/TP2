@@ -1,13 +1,13 @@
 #include "Sudoku.h"
+#include "Except.h"
 
 #include <fstream>
 #include <math.h>
-//TODO throw exception
 
 Sudoku::Sudoku(std::string sudoku_file) {
     std::ifstream file(sudoku_file, std::ios::app);
     if(!file.is_open()) {
-        throw std::string("Can't open file:" + sudoku_file);
+        throw Except("Can't open file:" + sudoku_file);
     }
     //Construct sudoku grid
     std::string line;
@@ -31,9 +31,9 @@ Sudoku::Sudoku(std::string sudoku_file) {
         }
         if(width_grid == -1) {
             width_grid = width;
-            if(width % (int) std::sqrt(width) != 0) throw std::string("Invalid size for sudoku");
+            if(width % (int) std::sqrt(width) != 0) throw Except("Invalid size for sudoku");
         }
-        else if(width_grid != width) throw std::string("Invalid size for sudoku");
+        else if(width_grid != width) throw Except("Invalid size for sudoku");
     }
 
     for (auto r = 0; r < m_grid.size(); ++r) {

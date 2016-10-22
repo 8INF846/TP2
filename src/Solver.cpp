@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Console.h"
+#include "Except.h"
 
 Solver::Solver(Sudoku& sudoku) : m_sudoku(sudoku) {
 
@@ -43,7 +44,7 @@ bool Solver::solve() {
             auto possibleValues = cell.getPossiblesValues();
             //Forward checking
             if(possibleValues.size() == 0 && cell.getValue() == UNKNOWN) {
-                throw std::string("can't solve this sudoku");
+                throw Except("can't solve this sudoku");
             }
             if(cell.getValue() == UNKNOWN && possibleValues.size() < mrvSize) {
                 mrvSize = possibleValues.size();
@@ -71,7 +72,7 @@ bool Solver::solve() {
 
             isFinish = solve();
             if(isFinish) return true;
-        } catch (const std::string& e) {
+        } catch (const std::exception& e) {
             out << "Can't resolve sudoku, return to" << std::endl << m_sudokuCopy;
             for (auto r = 0; r < m_sudoku.size(); ++r) {
                 for (auto c = 0; c < m_sudoku.size(); ++c) {
@@ -82,19 +83,19 @@ bool Solver::solve() {
             }
         }
     }
-    throw std::string("Can't find the solution");
+    throw Except("Can't find the solution");
     return false;
 }
 
 std::vector<int> Solver::getLineConstraints(unsigned int row) {
-    if(row > m_sudoku.size()) throw std::string("Can't access to row " + row);
+    if(row > m_sudoku.size()) throw Except("Can't access to row " + row);
 
     std::vector<int> result;
     for (auto c = 0; c < m_sudoku.size(); ++c) {
         auto cell_value = m_sudoku.getCell(row, c).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end())
-            throw std::string("2 values are identical in a row!");
+            throw Except("2 values are identical in a row!");
             result.push_back(cell_value);
         }
     }
@@ -102,14 +103,14 @@ std::vector<int> Solver::getLineConstraints(unsigned int row) {
 }
 
 std::vector<int> Solver::getColumnConstraints(unsigned int column) {
-    if(column > m_sudoku.size()) throw std::string("Can't access to column " + column);
+    if(column > m_sudoku.size()) throw Except("Can't access to column " + column);
 
     std::vector<int> result;
     for (auto r = 0; r < m_sudoku.size(); ++r) {
         auto cell_value = m_sudoku.getCell(r, column).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end())
-            throw std::string("2 values are identical in a row!");
+            throw Except("2 values are identical in a row!");
             result.push_back(cell_value);
         }
     }
@@ -117,9 +118,9 @@ std::vector<int> Solver::getColumnConstraints(unsigned int column) {
 }
 
 std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
-    if(row > m_sudoku.size()) throw std::string("Can't access to row " + row);
-    if(col > m_sudoku.size()) throw std::string("Can't access to column " + col);
-    
+    if(row > m_sudoku.size()) throw Except("Can't access to row " + row);
+    if(col > m_sudoku.size()) throw Except("Can't access to column " + col);
+
     std::vector<int> result;
 
     unsigned int size_box = (unsigned int) std::sqrt(m_sudoku.size());
@@ -131,7 +132,7 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
             auto cell_value = m_sudoku.getCell(r, c).getValue();
             if (cell_value != UNKNOWN) {
                 if(std::find(result.begin(), result.end(), cell_value) != result.end())
-                throw std::string("2 values are identical in a box!");
+                throw Except("2 values are identical in a box!");
                 result.push_back(cell_value);
             }
         }

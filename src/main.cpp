@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Solver.h"
+#include "Console.h"
 
 void help() {
     std::cout << "Utilisation : sudokusolver [sudoku_file]" << std::endl;
@@ -15,10 +16,11 @@ int main(int argc, char* argv[]) {
 
     try {
         Sudoku sudoku = Sudoku(std::string(argv[1]));
-        std::cout << sudoku;
+        std::ostream& out = Console::out(LEVEL::INFO);
+        out << sudoku;
         Solver solver = Solver(sudoku);
         solver.solve();
-        std::cout << std::endl << sudoku;
+        out << std::endl << "Solution:" << std::endl << sudoku;
     } catch (const std::string& e) {
         std::cerr << e << std::endl;
         return EXIT_FAILURE;

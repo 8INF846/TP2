@@ -34,25 +34,8 @@ std::vector<int> Cell::getPossiblesValues() const {
     return m_possibleValues;
 }
 
-void Cell::addPossibleValues(int value) {
-    if(std::find(m_possibleValues.begin(), m_possibleValues.end(), value) == m_possibleValues.end())
-    m_possibleValues.push_back(value);
-}
-
 void Cell::delPossiblesValues(int value) {
     m_possibleValues.erase(
     std::remove(m_possibleValues.begin(), m_possibleValues.end(), value),
     m_possibleValues.end());
-}
-
-Cell& Cell::operator=(const Cell& other)
-{
-    if (this != &other) {
-        std::vector<int> possible;
-        for(auto& v: other.m_possibleValues) {
-            possible.push_back(v);
-        }
-        this->m_possibleValues = possible;
-    }
-    return *this;
 }

@@ -5,11 +5,11 @@
 //TODO throw exception
 
 Sudoku::Sudoku(std::string sudoku_file) {
-
     std::ifstream file(sudoku_file, std::ios::app);
     if(!file.is_open()) {
         throw std::string("Can't open file:" + sudoku_file);
     }
+    //Construct sudoku grid
     std::string line;
     int width_grid = -1;
     std::string delimiter = ",";
@@ -64,26 +64,4 @@ std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {
         }
         output << std::endl;
     }
-}
-
-#include <iostream>
-Sudoku& Sudoku::operator=(const Sudoku& other)
-{
-    /*if (this != &other) {
-        this->m_grid = other.m_grid;
-    }
-    /**/
-    if (this != &other) {
-        std::vector<std::vector<Cell>> grid;
-        for(auto r = 0; r < other.m_grid.size(); ++r) {
-            grid.emplace_back();
-            for(auto c = 0; c < other.m_grid.size(); ++c) {
-                Cell cell = other.m_grid[r][c];
-                grid.back().push_back(cell);
-            }
-        }
-        this->m_grid = grid;
-    }
-    /**/
-    return *this;
 }

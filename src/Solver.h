@@ -7,7 +7,16 @@ class Solver {
 public:
     Solver(Sudoku& sudoku);
 
+    /**
+     * Constraint propagation + AC3
+     */
     void updateSudokuConstraints();
+
+    /**
+     * Solve the sudoku grid
+     * return if the sudoku is solved
+     * throw exception if the sudoku is not solvable
+     */
     bool solve();
 
 private:

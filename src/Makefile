@@ -8,7 +8,7 @@ H_FILES := $(wildcard *.h)
 ifeq ($(shell uname -m), armv7l)
 CC := $(CC)-6
 endif
-CC_FLAGS := --std=c++14 -pthread -O3
+CC_FLAGS := --std=c++14 -O3
 OUTNAME = sudokusolver
 
 all: clean tp2

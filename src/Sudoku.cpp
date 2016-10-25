@@ -2,7 +2,7 @@
 #include "Except.h"
 
 #include <fstream>
-#include <math.h>
+#include <cmath>
 
 Sudoku::Sudoku(std::string sudoku_file) {
     std::ifstream file(sudoku_file, std::ios::app);

@@ -58,7 +58,9 @@ bool Solver::solve() {
             }
         }
     }
-    if(isFinish) return isFinish;
+    if(isFinish) {
+        return isFinish;
+    }
 
     //Backtracking search
     auto cell = m_sudoku.getCell(mrvR, mrvC);
@@ -77,7 +79,9 @@ bool Solver::solve() {
             std::this_thread::sleep_for(std::chrono::milliseconds(m_sleepingTime));
 
             isFinish = solve();
-            if(isFinish) return true;
+            if(isFinish) {
+                return true;
+            }
         } catch (const std::exception& e) {
             out << "Can't resolve sudoku, return to" << std::endl << m_sudokuCopy;
             for (auto r = 0; r < m_sudoku.size(); ++r) {
@@ -104,8 +108,9 @@ std::vector<int> Solver::getLineConstraints(unsigned int row) {
     for (auto c = 0; c < m_sudoku.size(); ++c) {
         auto cell_value = m_sudoku.getCell(row, c).getValue();
         if (cell_value != UNKNOWN) {
-            if(std::find(result.begin(), result.end(), cell_value) != result.end())
-            throw Except("2 values are identical in a row!");
+            if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
+                throw Except("2 values are identical in a row!");
+            }
             result.push_back(cell_value);
         }
     }
@@ -123,8 +128,9 @@ std::vector<int> Solver::getColumnConstraints(unsigned int column) {
     for (auto r = 0; r < m_sudoku.size(); ++r) {
         auto cell_value = m_sudoku.getCell(r, column).getValue();
         if (cell_value != UNKNOWN) {
-            if(std::find(result.begin(), result.end(), cell_value) != result.end())
-            throw Except("2 values are identical in a row!");
+            if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
+                throw Except("2 values are identical in a row!");
+            }
             result.push_back(cell_value);
         }
     }
@@ -154,8 +160,9 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
         for (auto c = base_c; c < base_c + c_size_box; ++c) {
             auto cell_value = m_sudoku.getCell(r, c).getValue();
             if (cell_value != UNKNOWN) {
-                if(std::find(result.begin(), result.end(), cell_value) != result.end())
-                throw Except("2 values are identical in a box!");
+                if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
+                    throw Except("2 values are identical in a box!");
+                }
                 result.push_back(cell_value);
             }
         }

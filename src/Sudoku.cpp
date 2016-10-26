@@ -35,9 +35,13 @@ Sudoku::Sudoku(std::string sudoku_file) {
         }
         if(width_grid == -1) {
             width_grid = width;
-            if(width % (int) std::sqrt(width) != 0) throw Except("Invalid size for sudoku");
+            if(width % (int) std::sqrt(width) != 0) {
+                throw Except("Invalid size for sudoku");
+            }
         }
-        else if(width_grid != width) throw Except("Invalid size for sudoku");
+        else if(width_grid != width) {
+            throw Except("Invalid size for sudoku");
+        }
     }
 
     for (auto r = 0; r < m_grid.size(); ++r) {

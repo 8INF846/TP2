@@ -43,7 +43,7 @@ Le but de ce TP est de résoudre des sudokus en implémentant les algorithmes vu
 \section{Exécution du programme}
 \subsection{Dépendances du projet}
 Ce devoir a été développé en \emph{C++14} et a été testé sur des environnements
-\emph{Linux} et \emph{Windows. Pour compiler le programme sous Unix
+\emph{Linux} et \emph{Windows}. Pour compiler le programme sous Unix
 programme il vous faut~:
 \begin{itemize}
     \item \emph{G++} (version 6 recommandée)
@@ -75,6 +75,8 @@ Puis pour éxécuter le programme
 ./sudokusolver sudoku_file 100
 \end{verbatim}
 
+Note~: 100 étant le délai pour rafraîchir la fenêtre.
+
 Pour windows, il suffit d'ouvrir le programme \emph{cmd.exe}, de se rendre dans le dossier où se trouve l'éxécutable, et de taper~:
 \begin{verbatim}
 cd XXXXXXX\DOSSIERRENDU\bin\
@@ -86,12 +88,13 @@ Nous proposons la série d'éxécution suivante~:
 sudokusolver.exe sudoku1 100
 sudokusolver.exe sudoku2 100
 sudokusolver.exe sudoku3 100
+sudokusolver.exe sudoku4 100
 \end{verbatim}
 
 \section{Structure du programme}
 \subsection{Structure générale}
 
-La structure du programme est simple. Le programme possède une classe \emph{Sudoku} (qui contient un tableau de \emph{Cell}). Une \emph{Cell} est composée d'une valeur et de valeurs possibles. On donne ensuite le Sudoku à un objet \emph{Solver} qui se charge de la résolution.
+La structure du programme est simple. Le programme possède une classe \emph{Sudoku} (qui contient un tableau de \emph{Cell}). Une \emph{Cell} est composée d'une valeur et de valeurs possibles. On donne ensuite le Sudoku à un objet \emph{Solver} qui se charge de la résolution. L'affichage est géré dans la classe \emph{Displayer}.
 
 \subsection{La résolution du sudoku}
 

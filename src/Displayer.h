@@ -18,6 +18,7 @@ public:
 private:
     Sudoku& m_sudoku;
     std::unique_ptr<sf::RenderWindow> m_pWindow;
+    int m_tileSize;
 
     void run();
     void drawScene();

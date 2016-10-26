@@ -1,13 +1,16 @@
 #include "Solver.h"
-#include <math.h>
+#include <sstream>
+#include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "Console.h"
 #include "Except.h"
 
-Solver::Solver(Sudoku& sudoku) : m_sudoku(sudoku) {
-
+Solver::Solver(Sudoku& sudoku, int sleepingTime) : m_sudoku(sudoku),
+        m_sleepingTime(sleepingTime) {
 }
 
 void Solver::updateSudokuConstraints() {
@@ -70,6 +73,9 @@ bool Solver::solve() {
             out << "Change: " << mrvR << "," << mrvC << " to " << value << std::endl;
             out << m_sudoku;
 
+            // Sleep for graphic interface
+            std::this_thread::sleep_for(std::chrono::milliseconds(m_sleepingTime));
+
             isFinish = solve();
             if(isFinish) return true;
         } catch (const std::exception& e) {
@@ -88,7 +94,11 @@ bool Solver::solve() {
 }
 
 std::vector<int> Solver::getLineConstraints(unsigned int row) {
-    if(row > m_sudoku.size()) throw Except("Can't access to row " + row);
+    if(row > m_sudoku.size()) {
+        std::ostringstream oss("Can't access to row ");
+        oss << row;
+        throw Except(oss.str());
+    }
 
     std::vector<int> result;
     for (auto c = 0; c < m_sudoku.size(); ++c) {
@@ -103,7 +113,11 @@ std::vector<int> Solver::getLineConstraints(unsigned int row) {
 }
 
 std::vector<int> Solver::getColumnConstraints(unsigned int column) {
-    if(column > m_sudoku.size()) throw Except("Can't access to column " + column);
+    if(column > m_sudoku.size()) {
+        std::ostringstream oss("Can't access to column ");
+        oss << column;
+        throw Except(oss.str());
+    }
 
     std::vector<int> result;
     for (auto r = 0; r < m_sudoku.size(); ++r) {
@@ -118,8 +132,16 @@ std::vector<int> Solver::getColumnConstraints(unsigned int column) {
 }
 
 std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
-    if(row > m_sudoku.size()) throw Except("Can't access to row " + row);
-    if(col > m_sudoku.size()) throw Except("Can't access to column " + col);
+    if(row > m_sudoku.size()) {
+        std::ostringstream oss("Can't access to row ");
+        oss << row;
+        throw Except(oss.str());
+    }
+    if(col > m_sudoku.size()) {
+        std::ostringstream oss("Can't access to column ");
+        oss << col;
+        throw Except(oss.str());
+    }
 
     std::vector<int> result;
 

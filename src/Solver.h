@@ -5,7 +5,7 @@
 
 class Solver {
 public:
-    Solver(Sudoku& sudoku);
+    Solver(Sudoku& sudoku, int sleepingTime);
 
     /**
      * Constraint propagation + AC3
@@ -30,6 +30,7 @@ private:
     void removeBoxConstraints(const unsigned int row, const unsigned int col, const unsigned int value);
 
     Sudoku& m_sudoku;
+    int m_sleepingTime;
 };
 
 #endif //SOLVER_H

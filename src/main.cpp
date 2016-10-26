@@ -1,25 +1,32 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include <cstdlib>
 
 #include "Solver.h"
 #include "Console.h"
 #include "Displayer.h"
 
 void help() {
-    std::cout << "Utilisation : sudokusolver [sudoku_file]" << std::endl;
+    std::cout << "Utilisation : sudokusolver";
+    std::cout << " [sudoku_file]" << " [sleeping_time]" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Paramètres :" << std::endl;
+    std::cout << "    sudoku_file     ";
+    std::cout << "Relative path to a file containing a sudoku grid" << std::endl;
+    std::cout << "    sleeping_time   ";
+    std::cout << "Time to wait between two iteration in milliseconds" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
-    if(argc != 2) {
+    if(argc != 3) {
         help();
         return EXIT_FAILURE;
     }
 
     try {
         // Initialize the sudoku
-        std::string fileName(argv[1]);
-        Sudoku sudoku(fileName);
+        Sudoku sudoku = Sudoku(std::string(argv[1]));
 
         // Initialise and launch graphic interface
         Displayer displayer(sudoku);
@@ -28,7 +35,7 @@ int main(int argc, char* argv[]) {
         // Solve sudoku
         std::ostream& out = Console::out(LEVEL::INFO);
         out << sudoku;
-        Solver solver(sudoku);
+        Solver solver(sudoku, std::atoi(argv[2]));
         solver.solve();
         out << std::endl << "Solution:" << std::endl << sudoku;
 

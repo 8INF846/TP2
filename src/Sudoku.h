@@ -2,7 +2,7 @@
 #define SUDOKU_H
 
 #include <string>
-#include <array>
+#include <vector>
 
 #include "Cell.h"
 
@@ -21,7 +21,7 @@ public:
     void setCellValue(unsigned int row, unsigned int col, int newValue);
 
 private:
-    std::array<std::array<Cell, 9>, 9> m_grid;
+    std::vector<std::vector<Cell>> m_grid;
 };
 
 #endif //SUDOKU_H

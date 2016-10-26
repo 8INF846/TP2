@@ -48,10 +48,11 @@ void Displayer::drawScene() {
 
     // Tracé de la grille
     int size = m_tileSize * m_sudoku.size();
+    int cell_size = m_sudoku.size()/3;
     sf::RectangleShape row(sf::Vector2f(2, size));
     sf::RectangleShape col(sf::Vector2f(size, 2));
     for(int i = 1; i < m_sudoku.size(); ++i) {
-        if(i % 3 == 0) {
+        if(i % cell_size == 0) {
             row.setFillColor(sf::Color(200, 50, 50));
             col.setFillColor(sf::Color(200, 50, 50));
         }

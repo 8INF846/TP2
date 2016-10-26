@@ -43,7 +43,7 @@ Le but de ce TP est de résoudre des sudokus en implémentant les algorithmes vu
 \section{Exécution du programme}
 \subsection{Dépendances du projet}
 Ce devoir a été développé en \emph{C++14} et a été testé sur des environnements
-\emph{Linux} et \emph{Windows (dans le dossier bin)}. Pour compiler le
+\emph{Linux} et \emph{Windows. Pour compiler le programme sous Unix
 programme il vous faut~:
 \begin{itemize}
     \item \emph{G++} (version 6 recommandée)
@@ -51,7 +51,7 @@ programme il vous faut~:
     \item \emph{Make}
 \end{itemize}
 \subsection{Compilation}
-Pour compiler le programme, il suffit d'exécuter la commande \emph{make}. Un
+Il suffit alors d'exécuter la commande \emph{make} dans le dossier \emph{src}. Un
 binaire nommé \emph{sudokusolver} sera alors présent.
 
 \subsection{Configuration et exécution}
@@ -72,22 +72,21 @@ Avant de lancer le programme, il faut tout d'abord un sudoku à résoudre. Pour 
 
 Puis pour éxécuter le programme
 \begin{verbatim}
-./sudokusolver sudoku_file
+./sudokusolver sudoku_file 100
 \end{verbatim}
 
 Pour windows, il suffit d'ouvrir le programme \emph{cmd.exe}, de se rendre dans le dossier où se trouve l'éxécutable, et de taper~:
 \begin{verbatim}
 cd XXXXXXX\DOSSIERRENDU\bin\
-sudokusolver.exe sudoku_file
+sudokusolver.exe sudoku_file 100
 \end{verbatim}
 
 Nous proposons la série d'éxécution suivante~:
 \begin{verbatim}
-sudokusolver.exe sudoku1
-sudokusolver.exe sudoku2
-sudokusolver.exe sudoku3
+sudokusolver.exe sudoku1 100
+sudokusolver.exe sudoku2 100
+sudokusolver.exe sudoku3 100
 \end{verbatim}
-
 
 \section{Structure du programme}
 \subsection{Structure générale}

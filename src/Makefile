@@ -1,6 +1,6 @@
 .PHONY: tp2
 
-CC := clang++
+CC := g++
 CPP_FILES := $(wildcard *.cpp)
 H_FILES := $(wildcard *.h)
 LD_FLAGS := -lsfml-graphics -lsfml-window -lsfml-system

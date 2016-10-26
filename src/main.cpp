@@ -24,28 +24,36 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    Sudoku sudoku;
     try {
         // Initialize the sudoku
-        Sudoku sudoku = Sudoku(std::string(argv[1]));
+        sudoku = Sudoku(std::string(argv[1]));
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
-        // Initialise and launch graphic interface
-        Displayer displayer(sudoku);
-        auto displayerThread = displayer.start();
+    Displayer displayer(sudoku);
+    auto displayerThread = displayer.start();
 
+    try {
         // Solve sudoku
         std::ostream& out = Console::out(LEVEL::INFO);
         out << sudoku;
         Solver solver(sudoku, std::atoi(argv[2]));
         solver.solve();
         out << std::endl << "Solution:" << std::endl << sudoku;
-
-        // Wait for graphic interface to be closed before exiting
-        displayerThread.join();
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << std::endl;
+        displayer.stop();
+        displayerThread.join();
         return EXIT_FAILURE;
     }
+
+    // Wait for graphic interface to be closed before exiting
+    displayerThread.join();
 
     return EXIT_SUCCESS;
 }

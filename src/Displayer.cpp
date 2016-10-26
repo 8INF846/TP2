@@ -1,5 +1,6 @@
 #include "Displayer.h"
 #include <sstream>
+#include <cmath>
 
 Displayer::Displayer(Sudoku& sudoku) : m_sudoku(sudoku), m_tileSize(50) {
 }
@@ -89,4 +90,8 @@ void Displayer::drawScene() {
     }
 
     m_pWindow->display();
+}
+
+void Displayer::stop() {
+    m_pWindow->close();
 }

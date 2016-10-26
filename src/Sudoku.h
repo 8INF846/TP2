@@ -8,6 +8,7 @@
 
 class Sudoku {
 public:
+    Sudoku();
     Sudoku(std::string sudoku_file);
 
     /**

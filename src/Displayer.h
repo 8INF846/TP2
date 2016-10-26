@@ -15,6 +15,11 @@ public:
      */
     std::thread start();
 
+    /**
+     * Stop thread
+     */
+    void stop();
+
 private:
     Sudoku& m_sudoku;
     std::unique_ptr<sf::RenderWindow> m_pWindow;

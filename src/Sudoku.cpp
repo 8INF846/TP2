@@ -4,6 +4,10 @@
 #include <fstream>
 #include <cmath>
 
+Sudoku::Sudoku() {
+    
+}
+
 Sudoku::Sudoku(std::string sudoku_file) {
     std::ifstream file(sudoku_file, std::ios::app);
     if(!file.is_open()) {

@@ -145,12 +145,13 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
 
     std::vector<int> result;
 
-    unsigned int size_box = (unsigned int) std::sqrt(m_sudoku.size());
-    unsigned int base_r = row - row%size_box;
-    unsigned int base_c = col - col%size_box;
+    unsigned int c_size_box = (unsigned int) m_sudoku.size()/((unsigned int) std::sqrt(m_sudoku.size()));
+    unsigned int r_size_box = (unsigned int) m_sudoku.size()/c_size_box;
+    unsigned int base_r = row - row%r_size_box;
+    unsigned int base_c = col - col%c_size_box;
 
-    for (auto r = base_r; r < base_r + size_box; ++r) {
-        for (auto c = base_c; c < base_c + size_box; ++c) {
+    for (auto r = base_r; r < base_r + r_size_box; ++r) {
+        for (auto c = base_c; c < base_c + c_size_box; ++c) {
             auto cell_value = m_sudoku.getCell(r, c).getValue();
             if (cell_value != UNKNOWN) {
                 if(std::find(result.begin(), result.end(), cell_value) != result.end())
@@ -182,12 +183,13 @@ void Solver::removeColumnConstraints(const unsigned int col, const unsigned int 
 }
 
 void Solver::removeBoxConstraints(const unsigned int row, const unsigned int col, const unsigned int value) {
-    unsigned int size_box = (unsigned int) std::sqrt(m_sudoku.size());
-    unsigned int base_r = row - row%size_box;
-    unsigned int base_c = col - col%size_box;
+    unsigned int c_size_box = (unsigned int) m_sudoku.size()/((unsigned int) std::sqrt(m_sudoku.size()));
+    unsigned int r_size_box = (unsigned int) m_sudoku.size()/c_size_box;
+    unsigned int base_r = row - row%r_size_box;
+    unsigned int base_c = col - col%c_size_box;
 
-    for (auto r = base_r; r < base_r + size_box; ++r) {
-        for (auto c = base_c; c < base_c + size_box; ++c) {
+    for (auto r = base_r; r < base_r + r_size_box; ++r) {
+        for (auto c = base_c; c < base_c + c_size_box; ++c) {
             m_sudoku.getCell(r, c).delPossiblesValues(value);
         }
     }

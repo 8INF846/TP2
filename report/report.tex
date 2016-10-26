@@ -100,7 +100,7 @@ La structure du programme est simple. Le programme possède une classe \emph{Sud
 
 \subsubsection{AC3}
 
-Nous avons mis en place quelques algorithmes dans la classe \emph{Solver}. Le premier est l'algorithme \emph{AC3} pour vérifier la consistence des arcs. Ici, on considère chaque \emph{Cell} comme une variable ayant pour domaine ${1,2,3,...,N}$ ou $N$ est la taille du sudoku. Les contraintes sont ici propagées dans la méthode~:
+Nous avons mis en place quelques algorithmes dans la classe \emph{Solver}. Le premier est l'algorithme \emph{AC3} pour vérifier la consistance des arcs. Ici, on considère chaque \emph{Cell} comme une variable ayant pour domaine ${1,2,3,...,N}$ ou $N$ est la taille du sudoku. Les contraintes sont ici propagées dans la méthode~:
 
 \begin{minted}{c++}
 	void Solver::updateSudokuConstraints();
@@ -110,7 +110,7 @@ La contrainte propagée est qu'il ne doit pas y avoir 2 cases dans la même lign
 
 \subsubsection{Backtracking search + MRV}
 
-Pour la résolution en elle-même on a choisit l'algorithme \emph{Backtracking search} amélioré avec \emph{MRV}. On peut le voir dans la méthode~:
+Pour la résolution en elle-même on a choisi l'algorithme \emph{Backtracking search} amélioré avec \emph{MRV}. On peut le voir dans la méthode~:
 \begin{minted}{c++}
 	bool Solver::solve();
 \end{minted}

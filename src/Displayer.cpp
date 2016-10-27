@@ -48,7 +48,8 @@ void Displayer::drawScene() {
 
     // Tracé de la grille
     int size = m_tileSize * m_sudoku.size();
-    int cell_size = m_sudoku.size()/3;
+    unsigned int sqrtSize = ((unsigned int) std::sqrt(m_sudoku.size()));
+    int cell_size = m_sudoku.size()/sqrtSize;
     sf::RectangleShape row(sf::Vector2f(2, size));
     sf::RectangleShape col(sf::Vector2f(size, 2));
     for(int i = 1; i < m_sudoku.size(); ++i) {

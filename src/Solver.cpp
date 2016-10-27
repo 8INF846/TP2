@@ -129,7 +129,7 @@ std::vector<int> Solver::getColumnConstraints(unsigned int column) {
         auto cell_value = m_sudoku.getCell(r, column).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
-                throw Except("2 values are identical in a row!");
+                throw Except("2 values are identical in a col!");
             }
             result.push_back(cell_value);
         }
@@ -151,8 +151,9 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
 
     std::vector<int> result;
 
-    unsigned int c_size_box = (unsigned int) m_sudoku.size()/((unsigned int) std::sqrt(m_sudoku.size()));
-    unsigned int r_size_box = (unsigned int) m_sudoku.size()/c_size_box;
+    unsigned int sqrtSize = ((unsigned int) std::sqrt(m_sudoku.size()));
+    unsigned int c_size_box = (unsigned int) m_sudoku.size()/sqrtSize;
+    unsigned int r_size_box = (unsigned int) m_sudoku.size()/sqrtSize;
     unsigned int base_r = row - row%r_size_box;
     unsigned int base_c = col - col%c_size_box;
 
@@ -190,8 +191,9 @@ void Solver::removeColumnConstraints(const unsigned int col, const unsigned int 
 }
 
 void Solver::removeBoxConstraints(const unsigned int row, const unsigned int col, const unsigned int value) {
-    unsigned int c_size_box = (unsigned int) m_sudoku.size()/((unsigned int) std::sqrt(m_sudoku.size()));
-    unsigned int r_size_box = (unsigned int) m_sudoku.size()/c_size_box;
+    unsigned int sqrtSize = ((unsigned int) std::sqrt(m_sudoku.size()));
+    unsigned int c_size_box = (unsigned int) m_sudoku.size()/sqrtSize;
+    unsigned int r_size_box = (unsigned int) m_sudoku.size()/sqrtSize;
     unsigned int base_r = row - row%r_size_box;
     unsigned int base_c = col - col%c_size_box;
 

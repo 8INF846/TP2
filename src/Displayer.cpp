@@ -73,7 +73,7 @@ void Displayer::drawScene() {
     sf::Text text("", font);
     int fontSize = std::round(m_tileSize * 0.8);
     text.setCharacterSize(fontSize);
-    text.setColor(sf::Color(150, 150, 150));
+    text.setFillColor(sf::Color(150, 150, 150));
     for(int r = 0; r < m_sudoku.size(); ++r) {
         for(int c = 0; c < m_sudoku.size(); ++c) {
             auto n = m_sudoku.getCell(r, c).getValue();

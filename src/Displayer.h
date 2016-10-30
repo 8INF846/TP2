@@ -4,6 +4,7 @@
 #include <memory>
 #include <thread>
 #include <SFML/Graphics.hpp>
+#include <string>
 #include "Sudoku.h"
 
 class Displayer {
@@ -16,14 +17,15 @@ public:
     std::thread start();
 
     /**
-     * Stop thread
+     * Draw an error
      */
-    void stop();
+    void drawError(const std::string err);
 
 private:
     Sudoku& m_sudoku;
     std::unique_ptr<sf::RenderWindow> m_pWindow;
     int m_tileSize;
+    std::string m_error;
 
     void run();
     void drawScene();

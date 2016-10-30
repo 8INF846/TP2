@@ -109,7 +109,7 @@ std::vector<int> Solver::getLineConstraints(unsigned int row) {
         auto cell_value = m_sudoku.getCell(row, c).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
-                throw Except("2 values are identical in a row!");
+                throw Except("2 values are identical in row: " + std::to_string(row));
             }
             result.push_back(cell_value);
         }
@@ -129,7 +129,7 @@ std::vector<int> Solver::getColumnConstraints(unsigned int column) {
         auto cell_value = m_sudoku.getCell(r, column).getValue();
         if (cell_value != UNKNOWN) {
             if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
-                throw Except("2 values are identical in a col!");
+                throw Except("2 values are identical in a col: " + std::to_string(column));
             }
             result.push_back(cell_value);
         }
@@ -162,7 +162,8 @@ std::vector<int> Solver::getBoxConstraints(unsigned int row, unsigned int col) {
             auto cell_value = m_sudoku.getCell(r, c).getValue();
             if (cell_value != UNKNOWN) {
                 if(std::find(result.begin(), result.end(), cell_value) != result.end()) {
-                    throw Except("2 values are identical in a box!");
+                    throw Except("2 values are identical in a box: " 
+                    + std::to_string(row) + ","+ std::to_string(col));
                 }
                 result.push_back(cell_value);
             }

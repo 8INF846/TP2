@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << std::endl;
-        displayer.stop();
+        displayer.drawError(std::string(e.what()));
         displayerThread.join();
         return EXIT_FAILURE;
     }

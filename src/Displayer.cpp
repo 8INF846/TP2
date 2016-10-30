@@ -44,9 +44,22 @@ void Displayer::handleEvent(sf::Event& event) {
 }
 
 void Displayer::drawScene() {
+    sf::Font font;
+    font.loadFromFile("font.ttf");
+    if(m_error != "") {
+        m_pWindow->clear(sf::Color(240, 42, 42));
+        sf::Text errorText(m_error, font);
+        errorText.setCharacterSize(30);
+        errorText.setColor(sf::Color(240, 240, 240));
+        errorText.setPosition(10, 10);
+        m_pWindow->draw(errorText);
+        m_pWindow->display();
+        return;
+    }
     m_pWindow->clear(sf::Color(0, 0, 0));
 
     // Tracé de la grille
+    m_tileSize = m_pWindow->getSize().x / m_sudoku.size();
     int size = m_tileSize * m_sudoku.size();
     unsigned int sqrtSize = ((unsigned int) std::sqrt(m_sudoku.size()));
     int cell_size = m_sudoku.size()/sqrtSize;
@@ -68,12 +81,10 @@ void Displayer::drawScene() {
     }
 
     // Tracé des numéros
-    sf::Font font;
-    font.loadFromFile("font.ttf");
     sf::Text text("", font);
     int fontSize = std::round(m_tileSize * 0.8);
     text.setCharacterSize(fontSize);
-    text.setFillColor(sf::Color(150, 150, 150));
+    text.setColor(sf::Color(150, 150, 150));
     for(int r = 0; r < m_sudoku.size(); ++r) {
         for(int c = 0; c < m_sudoku.size(); ++c) {
             auto n = m_sudoku.getCell(r, c).getValue();
@@ -94,6 +105,7 @@ void Displayer::drawScene() {
     m_pWindow->display();
 }
 
-void Displayer::stop() {
-    m_pWindow->close();
+
+void Displayer::drawError(const std::string err) {
+    m_error = err;
 }
